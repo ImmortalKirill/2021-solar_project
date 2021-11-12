@@ -23,7 +23,7 @@ def read_space_objects_data_from_file(input_filename):
                 star = Star()
                 parse_star_parameters(line, star)
                 objects.append(star)
-            if object_type == "planet":
+            elif object_type == "planet":
                 planet = Planet()
                 parse_planet_parameters(line, planet)
                 objects.append(planet)
@@ -47,12 +47,15 @@ def parse_star_parameters(line, star):
     **line** — строка с описание звезды.
     **star** — объект звезды.
     """
-    star.R = line.split()[1]
-    star.color = line.split()[2]
-    star.x = line.split()[3]
-    star.y = line.split()[4]
-    star.Vx = line.split()[5]
-    star.Vy = line.split()[6]
+    split_line = line.split()
+    star.R = int(split_line[1])
+    star.color = split_line[2]
+    star.m = float(split_line[3])
+    star.x = float(split_line[4])
+    star.y = float(split_line[5])
+    star.Vx = float(split_line[6])
+    star.Vy = float(split_line[7])
+
 
 def parse_planet_parameters(line, planet):
     """Считывает данные о планете из строки.
@@ -69,12 +72,14 @@ def parse_planet_parameters(line, planet):
     **line** — строка с описание планеты.
     **planet** — объект планеты.
     """
-    planet.R = line.split()[1]
-    planet.color = line.split()[2]
-    planet.x = line.split()[3]
-    planet.y = line.split()[4]
-    planet.Vx = line.split()[5]
-    planet.Vy = line.split()[6]
+    split_line = line.split()
+    planet.R = int(split_line[1])
+    planet.color = split_line[2]
+    planet.m = float(split_line[3])
+    planet.x = float(split_line[4])
+    planet.y = float(split_line[5])
+    planet.Vx = float(split_line[6])
+    planet.Vy = float(split_line[7])
 
 
 def write_space_objects_data_to_file(output_filename, space_objects):
@@ -88,10 +93,11 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     **output_filename** — имя входного файла
     **space_objects** — список объектов планет и звёзд
     """
-    with open(output_filename, 'w') as out_file:
-        for obj in space_objects:
-            print(out_file, "%s %d %s %f %f %f %f %f" % (obj.type, obj.R, obj.color,
-                                                         obj.m, obj.x, obj.y, obj.Vx, obj.Vy))
+    out_file = open(output_filename, 'w')
+    for obj in space_objects:
+        out_file.write(obj.type + ' ' + str(obj.R) + ' ' + obj.color + ' ' + str(obj.m) + ' ' + str(obj.x) +
+                       ' ' + str(obj.y) + ' ' + str(obj.Vx) + ' ' + str(obj.Vy) + '\n')
+    out_file.close()
 
 
 # FIXME: хорошо бы ещё сделать функцию, сохранающую статистику в заданный файл...
